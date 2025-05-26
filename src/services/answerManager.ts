@@ -1,7 +1,7 @@
 import { commandClient as redis } from '../redis';
 import { publishEvent } from './eventPublisher';
 
-/** points for a correct answer (simple demo) */
+// points for a correct answer (simple demo)
 const CORRECT_POINTS = 1000;
 
 /**
