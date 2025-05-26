@@ -22,8 +22,8 @@ export async function submitAnswer(
 
   // 2. avoid double-answering
   const answerKey = `${base}:answers:${qIdx}`;
-//   const already = await redis.hExists(answerKey, playerId);
-//   if (already) return; // ignore duplicates
+  const already = await redis.hExists(answerKey, playerId);
+  if (already) return; // ignore duplicates
 
   // 3. store the answer
   await redis.hSet(answerKey, { [playerId]: answerIndex });
