@@ -3,6 +3,7 @@ import { createSession, joinSession, getSession } from '../services/gameManager'
 import { publishEvent } from '../services/eventPublisher';
 import { getBlockingClient } from '../redis';
 import { pushNextQuestion } from '../bl/pushNextQuestion';
+import { submitAnswer } from '../services/answerManager';
 
 const router = Router();
 router.post('/:pin/question', async (req: Request, res: Response) => {
@@ -104,5 +105,21 @@ router.post('/:pin/end', async (req: Request, res: Response) => {
   }
 });
 
+router.post('/:pin/answer', async (req, res) => {
+  const { pin } = req.params;
+  const { playerId, answer } = req.body; // answer = index (number)
+
+  if (typeof playerId !== 'string' || typeof answer !== 'number') {
+     res.status(400).json({ error: 'Invalid payload' });
+     return;
+  }
+
+  try {
+    await submitAnswer(pin, playerId, answer);
+    res.json({ status: 'answer_recorded' });
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
 export default router;
