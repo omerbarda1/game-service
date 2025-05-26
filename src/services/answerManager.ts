@@ -2,6 +2,7 @@ import { commandClient as redis } from '../redis';
 import { publishEvent } from './eventPublisher';
 
 // points for a correct answer (simple demo)
+// in a real game, this could be dynamic based on question difficulty or the time taken to answer
 const CORRECT_POINTS = 1000;
 
 /**
